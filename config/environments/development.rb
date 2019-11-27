@@ -49,4 +49,19 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # in config/environments/development.rb
+  config.active_job.queue_adapter = :sidekiq
+  # in config/initializers/sidekiq.rb
+  schedule = [
+    {'name' => MyName, 'class' => MyJob, 'cron'  => '1 * * * *',  
+    'queue' => default, 'active_job' => true }
+  ]
+  Sidekiq.configure_server do |config|
+  config.redis = { host:'localhost', port: 6379, db: 1 }
+  Sidekiq::Cron::Job.load_from_array! schedule
+  end
+  Sidekiq.configure_client do |config|
+  config.redis = { host:'localhost', port: 6379, db: 1 }
+  end
 end
