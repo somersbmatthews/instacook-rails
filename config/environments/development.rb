@@ -54,8 +54,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   # in config/initializers/sidekiq.rb
   schedule = [
-    {'name' => MyName, 'class' => MyJob, 'cron'  => '1 * * * *',  
-    'queue' => default, 'active_job' => true }
+    # {'name' => MyName, 'class' => MyJob, 'cron'  => '1 * * * *',  
+    # 'queue' => default, 'active_job' => true }
   ]
   Sidekiq.configure_server do |config|
   config.redis = { host:'localhost', port: 6379, db: 1 }
